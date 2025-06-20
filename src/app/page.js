@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -21,10 +22,9 @@ export default function Home() {
         </ol>
 
         <div className={styles.ctas}>
-          <a
+          <Link
             className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
+            href="/login"
             rel="noopener noreferrer"
           >
             <Image
@@ -34,24 +34,20 @@ export default function Home() {
               width={20}
               height={20}
             />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
+            로그인
+          </Link>
+          <Link
+            href="/register"
             rel="noopener noreferrer"
             className={styles.secondary}
           >
-            Read our docs
-          </a>
+            회원가입
+          </Link>
         </div>
       </main>
+
       <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link href="#" target="_blank" rel="noopener noreferrer">
           <Image
             aria-hidden
             src="/file.svg"
@@ -60,12 +56,8 @@ export default function Home() {
             height={16}
           />
           Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        </Link>
+        <Link href="#" target="_blank" rel="noopener noreferrer">
           <Image
             aria-hidden
             src="/window.svg"
@@ -73,13 +65,9 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+          Examples 기타
+        </Link>
+        <Link href="#" target="_blank" rel="noopener noreferrer">
           <Image
             aria-hidden
             src="/globe.svg"
@@ -87,8 +75,8 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Go to nextjs.org →
-        </a>
+          Go to 사용설명서 →
+        </Link>
       </footer>
     </div>
   );

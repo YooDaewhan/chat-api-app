@@ -4,7 +4,7 @@ export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*", // 또는 Vercel 도메인
+      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
     },
@@ -24,30 +24,30 @@ export async function POST(req) {
       });
     }
 
-    // 아이디 중복 체크
-    const [existing] = await pool.query("SELECT id FROM user WHERE id = ?", [
-      id,
-    ]);
-    if (existing.length > 0) {
-      return new Response("이미 존재하는 아이디입니다.", {
-        status: 409,
+    const [rows] = await pool.query(
+      "SELECT * FROM user WHERE id = ? AND pw = ?",
+      [id, pw]
+    );
+
+    if (rows.length === 0) {
+      return new Response("아이디 또는 비밀번호가 틀렸습니다.", {
+        status: 401,
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
       });
     }
 
-    // DB 삽입 (평문 저장)
-    await pool.query("INSERT INTO user (id, pw) VALUES (?, ?)", [id, pw]);
-
-    return new Response("회원가입 성공", {
-      status: 201,
+    // 로그인 성공 시 id 값을 JSON으로 반환
+    return new Response(JSON.stringify({ id }), {
+      status: 200,
       headers: {
+        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
     });
   } catch (err) {
-    console.error("회원가입 오류:", err);
+    console.error("로그인 오류:", err);
     return new Response("서버 오류: " + err.message, {
       status: 500,
       headers: {

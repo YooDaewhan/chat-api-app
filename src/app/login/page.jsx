@@ -2,28 +2,27 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function RegisterPage() {
-  const router = useRouter(); // ⬅️ 반드시 컴포넌트 안에서 호출
+export default function LoginPage() {
+  const router = useRouter();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, pw }),
       });
 
-      if (res.status === 201) {
-        setMessage("✅ 회원가입 성공!");
-        router.push("/"); // 홈으로 이동
-        setId("");
-        setPw("");
+      if (res.status === 200) {
+        const data = await res.json(); // ✅ JSON으로 받기
+        localStorage.setItem("user", data.id); // ✅ 실제 id 저장
+        router.push("/main/main");
       } else {
         const text = await res.text();
         setMessage("❌ 실패: " + text);
@@ -43,9 +42,9 @@ export default function RegisterPage() {
       }}
     >
       <div style={{ padding: 20 }}>
-        <h1 style={{ textAlign: "center" }}>회원가입</h1>
+        <h1 style={{ textAlign: "center" }}>로그인</h1>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -66,7 +65,7 @@ export default function RegisterPage() {
             onChange={(e) => setPw(e.target.value)}
             required
           />
-          <button type="submit">회원가입</button>
+          <button type="submit">로그인</button>
           {message && <div style={{ marginTop: 10 }}>{message}</div>}
         </form>
       </div>
